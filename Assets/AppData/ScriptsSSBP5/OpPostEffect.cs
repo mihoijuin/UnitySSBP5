@@ -6,8 +6,10 @@ public class OpPostEffect : MonoBehaviour
 {
  	[SerializeField]
     private Material opMaterial = null;
+    private MainChara chara;
 
     private void Awake() {
+        chara = FindObjectOfType<MainChara>();
         StartCoroutine(OP());
     }
 
@@ -46,5 +48,10 @@ public class OpPostEffect : MonoBehaviour
 
         yield return AppUtil.Wait(1.15f);
         yield return SetMaterialFloat(0.07f, 0.8f, 0.8f, Ease.InQuart);
+
+        yield return AppUtil.Wait(1.5f);
+
+        chara.Landing();
+        this.enabled = false;
     }
 }
