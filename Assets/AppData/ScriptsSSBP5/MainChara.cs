@@ -14,8 +14,24 @@ public class MainChara : MonoBehaviour
     private float landEffDuration = 0.35f;
     private Ease landEffEase = Ease.InQuart;
 
-    private void Awake() {
+    private Title title;
+
+    private void Awake()
+    {
+        this.title = FindObjectOfType<Title>();
         this.charaMat = GetComponent<SpriteRenderer>().material;
+        StartCoroutine(SlideOut());
+    }
+
+    private IEnumerator SlideOut()
+    {
+        yield return AppUtil.Wait(1f);
+        yield return this.transform.DOLocalRotate(new Vector3(0,0,-40), 0.35f).SetEase(Ease.InOutBack).WaitForCompletion();
+        yield return AppUtil.Wait(0.1f);
+        this.transform.DOMoveX(13, 0.3f).SetEase(Ease.InBack);
+
+        yield return AppUtil.Wait(0.15f);
+        yield return title.ShowTitle();
     }
 
     public void Landing()
