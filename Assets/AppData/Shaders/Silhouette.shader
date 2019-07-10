@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        [PowerSlider(1)]_ScaleX ("Scale X", Range(0, 2)) = 1
         [PowerSlider(1)]_ScaleY ("Scale Y", Range(0, 2)) = 1
     }
     SubShader
@@ -33,13 +34,14 @@
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            float _ScaleX;
             float _ScaleY;
 
             v2f vert (appdata v)
             {
                 float4x4 sizeMat = float4x4
                 (
-                    float4(1, 0, 0, 0),
+                    float4(_ScaleX, 0, 0, 0),
                     float4(0, _ScaleY, 0, 0),
                     float4(0, 0, 1, 0),
                     float4(0, 0, 0, 1)
@@ -56,7 +58,7 @@
             fixed4 frag (v2f_img i) : SV_Target
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
-                // col.rgb = float3(0,0,0);
+                col.rgb = float3(0,0,0);
                 return col;
             }
             ENDCG
