@@ -8,11 +8,21 @@ public class MainChara : MonoBehaviour
     private Material bgMat = null;
     private Material charaMat;
 
-    private Vector2 initPos = new Vector2(0, 9);
+    private Vector2 initPos = new Vector2(0, 10);
     private Vector2 landPos = new Vector2(0, -1.2f);
-    private float landDuration = 0.2f;
-    private float landEffDuration = 0.35f;
+
+    private float landDuration = 0.1f;
+    private Ease landEase = Ease.InExpo;
+
+    private float landScaleDuration = 0.1f;
+    private Ease landScaleEase = Ease.OutBack;
+
+    private float landEffDuration = 0.3f;
     private Ease landEffEase = Ease.InQuart;
+
+    private float rotateDuration = 0.5f;
+    private Ease rotateEase = Ease.InBack;
+
 
     private Title title;
 
@@ -20,29 +30,6 @@ public class MainChara : MonoBehaviour
     {
         this.title = FindObjectOfType<Title>();
         this.charaMat = GetComponent<SpriteRenderer>().material;
-        StartCoroutine(SlideOut());
-    }
-
-    private IEnumerator SlideOut()
-    {
-        yield return AppUtil.Wait(1f);
-        yield return this.transform.DOLocalRotate(new Vector3(0,0,-40), 0.35f).SetEase(Ease.InOutBack).WaitForCompletion();
-        yield return AppUtil.Wait(0.1f);
-        this.transform.DOMoveX(13, 0.3f).SetEase(Ease.InBack);
-
-        yield return AppUtil.Wait(0.15f);
-        yield return title.ShowTitle();
-    }
-
-    public void Landing()
-    {
-        this.transform.position = initPos;
-        this.transform.DOMoveY(landPos.y, landDuration).SetEase(Ease.InExpo)
-            .OnComplete(()=> {
-                SetMaterialFloat(charaMat, "_ScaleX", 0.5f, 1, landEffDuration*0.3f, Ease.OutBack);
-                SetMaterialFloat(charaMat, "_ScaleY", 1.4f, 1, landEffDuration*0.3f, Ease.OutBack);
-            });
-        StartCoroutine(LandEff());
     }
 
     private void SetMaterialFloat(Material mat, string property, float startValue, float endValue, float duration, Ease ease)
@@ -59,10 +46,21 @@ public class MainChara : MonoBehaviour
         ).SetEase(ease);
     }
 
+    public IEnumerator Landing()
+    {
+        this.transform.position = initPos;
+        this.transform.DOMoveY(landPos.y, landDuration).SetEase(landEase)
+            .OnComplete(()=> {
+                SetMaterialFloat(charaMat, "_ScaleX", 0.2f, 1, landScaleDuration, landScaleEase);
+                SetMaterialFloat(charaMat, "_ScaleY", 1.7f, 1, landScaleDuration, landScaleEase);
+            });
+        yield return LandEff();
+        yield return AppUtil.Wait(0.3f);
+        yield return SlideOut();
+    }
+
     private IEnumerator LandEff()
     {
-        yield return AppUtil.Wait(landDuration-0.2f);
-
         landPos.y -= 2f;
         float landY = Camera.main.WorldToViewportPoint(landPos).y;
         bgMat.SetFloat("_STY", landY);
@@ -74,10 +72,23 @@ public class MainChara : MonoBehaviour
 
         SetMaterialFloat(bgMat, "_EllipseX", startValue, endX, landEffDuration, landEffEase);
         SetMaterialFloat(bgMat, "_EllipseY", startValue, endY, landEffDuration, landEffEase);
-        SetMaterialFloat(bgMat, "_Width", startValue, endWidth, landEffDuration, landEffEase);
+        SetMaterialFloat(bgMat, "_EllipseWidth", startValue, endWidth, landEffDuration, landEffEase);
 
         yield return AppUtil.Wait(landEffDuration+0.05f);
-        SetMaterialFloat(bgMat, "_Width", endWidth, 0, 0.2f, Ease.OutQuart);
+        SetMaterialFloat(bgMat, "_EllipseWidth", endWidth, 0, 0.2f, Ease.OutQuart);
 
+    }
+
+    private IEnumerator SlideOut()
+    {
+        SetMaterialFloat(charaMat, "_RotateZ", 0, -50, rotateDuration, rotateEase);
+        SetMaterialFloat(charaMat, "_ScaleX", 1, 0.8f, rotateDuration, rotateEase);
+        SetMaterialFloat(charaMat, "_ScaleY", 1, 0.95f, rotateDuration, rotateEase);
+        yield return AppUtil.Wait(0.8f);
+        yield return this.transform.DOMoveX(this.transform.position.x-2, 0.5f).WaitForCompletion();
+        this.transform.DOMoveX(13, 0.2f).SetEase(Ease.OutExpo);
+
+        yield return AppUtil.Wait(0.15f);
+        yield return title.ShowTitle();
     }
 }

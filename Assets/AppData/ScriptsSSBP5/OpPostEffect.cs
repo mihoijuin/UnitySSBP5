@@ -8,15 +8,15 @@ public class OpPostEffect : MonoBehaviour
     private Material opMaterial = null;
     private MainChara chara;
 
-    // private void Awake() {
-    //     chara = FindObjectOfType<MainChara>();
-    //     StartCoroutine(OP());
-    // }
+    private void Awake() {
+        chara = FindObjectOfType<MainChara>();
+        StartCoroutine(OP());
+    }
 
-    // private void OnRenderImage(RenderTexture src, RenderTexture dest)
- 	// {
- 	// 	Graphics.Blit (src, dest, opMaterial);
- 	// }
+    private void OnRenderImage(RenderTexture src, RenderTexture dest)
+ 	{
+ 		Graphics.Blit (src, dest, opMaterial);
+ 	}
 
     private IEnumerator SetMaterialFloat(float startValue, float endValue, float duration, Ease ease, float delay=0, bool initMode=false)
     {
@@ -51,7 +51,7 @@ public class OpPostEffect : MonoBehaviour
 
         yield return AppUtil.Wait(1.5f);
 
-        chara.Landing();
+        StartCoroutine(chara.Landing());
         this.enabled = false;
     }
 }
