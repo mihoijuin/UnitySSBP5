@@ -8,7 +8,7 @@
         [PowerSlider(0.5)]_EllipseWidth("Ellipse Width", Range(0, 0.1)) = 0
         _STY("Center Y", Float) = 0.5
 
-        [PowerSlider(0.5)]_RemainWidth("Remain Width", Range(0, 0.1)) = 0
+        [PowerSlider(0.5)]_RemainWidth("Remain Width", Range(0, 100)) = 0
     }
     SubShader
     {
@@ -41,7 +41,18 @@
                 }
 
                 float ly = _STY + 0.1;
-                float w = _RemainWidth - i.uv.x*0.01;
+                // float w;
+
+                float w = (_RemainWidth - i.uv.x) * 0.03;
+
+                // if(_RemainWidth < 0.95)
+                // {
+                //     w = (_RemainWidth - i.uv.x) * 0.04;
+                // } else
+                // {
+                //     w = (_RemainWidth - sqrt(i.uv.x+0.05)) * (0.15 + i.uv.x*0.01) + 0.01;
+                // }
+
                 float s1 = ly + w;
                 float s2 = ly - w;
                 if(i.uv.y < s1 && i.uv.y > s2)

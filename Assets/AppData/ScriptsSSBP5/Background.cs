@@ -34,4 +34,13 @@ public class Background : MonoBehaviour
         AppUtil.SetMaterialFloat(landOffMat, "_EllipseWidth", endWidth, 0, 0.2f, Ease.OutQuart);
 
     }
+
+    public IEnumerator RemainLine(float slideDuration)
+    {
+        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 0, 1f, slideDuration, Ease.OutExpo);
+        yield return AppUtil.Wait(slideDuration+0.5f);
+        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 1, 1.3f, 1f, Ease.OutQuart);
+        yield return AppUtil.Wait(1.2f);
+        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 1.3f, 100, 1f, Ease.InQuart);
+    }
 }

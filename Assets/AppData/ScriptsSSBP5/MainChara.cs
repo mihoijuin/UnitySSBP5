@@ -12,8 +12,11 @@ public class MainChara : MonoBehaviour
     private float landScaleDuration = 0.1f;
     private Ease landScaleEase = Ease.OutBack;
 
-    private float rotateDuration = 0.5f;
+    private float rotateDuration = 0.35f;
     private Ease rotateEase = Ease.InBack;
+
+    private float prepareDuration = 0.5f;
+    private Ease prepareEase = Ease.OutQuart;
 
     private void Awake()
     {
@@ -35,8 +38,8 @@ public class MainChara : MonoBehaviour
         AppUtil.SetMaterialFloat(this.charaMat, "_RotateZ", 0, -50, this.rotateDuration, this.rotateEase);
         AppUtil.SetMaterialFloat(this.charaMat, "_ScaleX", 1, 0.8f, this.rotateDuration, this.rotateEase);
         AppUtil.SetMaterialFloat(this.charaMat, "_ScaleY", 1, 0.95f, this.rotateDuration, this.rotateEase);
-        yield return AppUtil.Wait(0.8f);
-        yield return this.transform.DOMoveX(this.transform.position.x-2, 0.5f).WaitForCompletion();
+        yield return AppUtil.Wait(this.rotateDuration+0.01f);
+        yield return this.transform.DOMoveX(this.transform.position.x-2, prepareDuration).SetEase(prepareEase).WaitForCompletion();
         this.transform.DOMoveX(13, 0.2f).SetEase(Ease.OutExpo);
     }
 }

@@ -30,6 +30,9 @@ public class Director : MonoBehaviour
         yield return this.chara.SlideOut();
 
         yield return AppUtil.Wait(0.15f);
+        StartCoroutine(bg.RemainLine(0.1f));
+
+        yield return AppUtil.Wait(0.1f);
         yield return title.ShowTitle();
     }
 }
