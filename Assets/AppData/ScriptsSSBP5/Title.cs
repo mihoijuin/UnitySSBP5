@@ -17,7 +17,7 @@ public class Title : MonoBehaviour
         foreach(Text text in textArray.Take(textArray.Length-1))
         {
             yield return AppUtil.Wait(0.05f);
-            text.GetComponent<RectTransform>().DOMoveY(-1f, 0.3f).SetEase(Ease.OutBack);
+            text.GetComponent<RectTransform>().DOMoveY(-1.2f, 0.3f).SetEase(Ease.OutBack);
         }
 
         yield return AppUtil.Wait(0.5f);
