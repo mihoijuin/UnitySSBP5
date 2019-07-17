@@ -32,27 +32,13 @@ public class MainChara : MonoBehaviour
         this.charaMat = GetComponent<SpriteRenderer>().material;
     }
 
-    private void SetMaterialFloat(Material mat, string property, float startValue, float endValue, float duration, Ease ease)
-    {
-        DOTween.To(
-            ()=> startValue,
-            x =>
-            {
-                startValue = x;
-                mat.SetFloat(property, startValue);
-            },
-            endValue,
-            duration
-        ).SetEase(ease);
-    }
-
     public IEnumerator Landing()
     {
         this.transform.position = initPos;
         this.transform.DOMoveY(landPos.y, landDuration).SetEase(landEase)
             .OnComplete(()=> {
-                SetMaterialFloat(charaMat, "_ScaleX", 0.2f, 1, landScaleDuration, landScaleEase);
-                SetMaterialFloat(charaMat, "_ScaleY", 1.7f, 1, landScaleDuration, landScaleEase);
+                AppUtil.SetMaterialFloat(charaMat, "_ScaleX", 0.2f, 1, landScaleDuration, landScaleEase);
+                AppUtil.SetMaterialFloat(charaMat, "_ScaleY", 1.7f, 1, landScaleDuration, landScaleEase);
             });
         yield return LandEff();
         yield return AppUtil.Wait(0.3f);
@@ -70,20 +56,20 @@ public class MainChara : MonoBehaviour
         float endY = 0.13f;
         float endWidth = 0.03f;
 
-        SetMaterialFloat(bgMat, "_EllipseX", startValue, endX, landEffDuration, landEffEase);
-        SetMaterialFloat(bgMat, "_EllipseY", startValue, endY, landEffDuration, landEffEase);
-        SetMaterialFloat(bgMat, "_EllipseWidth", startValue, endWidth, landEffDuration, landEffEase);
+        AppUtil.SetMaterialFloat(bgMat, "_EllipseX", startValue, endX, landEffDuration, landEffEase);
+        AppUtil.SetMaterialFloat(bgMat, "_EllipseY", startValue, endY, landEffDuration, landEffEase);
+        AppUtil.SetMaterialFloat(bgMat, "_EllipseWidth", startValue, endWidth, landEffDuration, landEffEase);
 
         yield return AppUtil.Wait(landEffDuration+0.05f);
-        SetMaterialFloat(bgMat, "_EllipseWidth", endWidth, 0, 0.2f, Ease.OutQuart);
+        AppUtil.SetMaterialFloat(bgMat, "_EllipseWidth", endWidth, 0, 0.2f, Ease.OutQuart);
 
     }
 
     private IEnumerator SlideOut()
     {
-        SetMaterialFloat(charaMat, "_RotateZ", 0, -50, rotateDuration, rotateEase);
-        SetMaterialFloat(charaMat, "_ScaleX", 1, 0.8f, rotateDuration, rotateEase);
-        SetMaterialFloat(charaMat, "_ScaleY", 1, 0.95f, rotateDuration, rotateEase);
+        AppUtil.SetMaterialFloat(charaMat, "_RotateZ", 0, -50, rotateDuration, rotateEase);
+        AppUtil.SetMaterialFloat(charaMat, "_ScaleX", 1, 0.8f, rotateDuration, rotateEase);
+        AppUtil.SetMaterialFloat(charaMat, "_ScaleY", 1, 0.95f, rotateDuration, rotateEase);
         yield return AppUtil.Wait(0.8f);
         yield return this.transform.DOMoveX(this.transform.position.x-2, 0.5f).WaitForCompletion();
         this.transform.DOMoveX(13, 0.2f).SetEase(Ease.OutExpo);
