@@ -9,7 +9,7 @@ public class OpPostEffect : MonoBehaviour
 
     private string[] lineProperties = new string[] { "_VLWidth", "_HLWidth" };
     private float startValue = 0.008f;
-    private float[] waitTimes = new float[] { 0.05f, 0.8f, 1.2f };
+    private float[] waitTimes = new float[] { 0.08f, 0.8f, 1.2f };
     private float[] endValues = new float[] { 0.001f, 0.07f, 0.8f };
     private float[] durations = new float[] { 0.0005f, 0.15f, 0.8f };
     private Ease[] eases = new Ease[] { Ease.InExpo, Ease.InExpo, Ease.InQuart };

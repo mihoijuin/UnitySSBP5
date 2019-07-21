@@ -1,4 +1,4 @@
-﻿Shader "Unlit/LandOff"
+﻿Shader "Unlit/Background"
 {
     Properties
     {

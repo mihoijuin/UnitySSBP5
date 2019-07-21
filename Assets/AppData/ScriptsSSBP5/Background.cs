@@ -39,8 +39,16 @@ public class Background : MonoBehaviour
     {
         AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 0, 1f, slideDuration, Ease.OutExpo);
         yield return AppUtil.Wait(slideDuration+0.5f);
-        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 1, 1.3f, 1f, Ease.OutQuart);
-        yield return AppUtil.Wait(1.2f);
-        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 1.3f, 100, 1f, Ease.InQuart);
+        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 1, 1.5f, 1.5f, Ease.OutQuart);
+    }
+
+    public void BlackOut()
+    {
+        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 1.5f, 100, 1f, Ease.InQuart);
+    }
+
+    public void WhiteOut()
+    {
+        AppUtil.SetMaterialFloat(landOffMat, "_RemainWidth", 100, 0, 2f, Ease.OutQuart);
     }
 }
